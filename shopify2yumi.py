@@ -75,9 +75,6 @@ def stock_file_process(filtered_variations):
 def run_csv_job(file_path, stock_only):
     #csvs = glob.glob('./shopify_exports/*.csv')
     #latest_file = max(csvs, key=os.path.getctime)
-    for file in glob.glob(THIS_FOLDER + '/yumi_output/*.xlsx'):
-        os.remove(file)
-        
     latest_file_ds = pd.read_csv(file_path)
 
     latest_file_ds.replace('', np.nan, inplace=True)
@@ -106,4 +103,11 @@ def run_csv_job(file_path, stock_only):
             with open(file, 'rb') as excel_file:
                 zf.writestr(file.split('/')[-1], excel_file.read())
     memory_file.seek(0)
+
+    for file in glob.glob(THIS_FOLDER + '/yumi_output/*.xlsx'):
+        os.remove(file)
+        
+    os.remove(file_path)
+
     return memory_file
+
