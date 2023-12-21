@@ -5,9 +5,12 @@ import pandas as pd
 import numpy as np
 import zipfile 
 from io import BytesIO
+from pathlib import Path
+THIS_FOLDER = Path(__file__).parent.resolve()
 
-if not os.path.exists('./yumi_output'):
-    os.makedirs('./yumi_output')
+
+if not os.path.exists(THIS_FOLDER + '/yumi_output'):
+    os.makedirs(THIS_FOLDER + '/yumi_output')
 
 
 def image_file_process(latest_file_ds):
@@ -22,7 +25,7 @@ def image_file_process(latest_file_ds):
 
     new_img_ds["type"] = new_img_ds["type"].map({True: 'Secondary', False: 'Primary'})
 
-    new_img_ds.to_excel("yumi_output/image.xlsx", index=False)
+    new_img_ds.to_excel(THIS_FOLDER + "/yumi_output/image.xlsx", index=False)
 
 
 def product_file_process(filtered_variations):
@@ -57,14 +60,14 @@ def product_file_process(filtered_variations):
 
     product_df["commodityCode"] = product_df["category"].map(commodity_codes)
     product_df["vatable"] = ""
-    product_df.to_excel("yumi_output/product.xlsx", index=False)
+    product_df.to_excel(THIS_FOLDER + "/yumi_output/product.xlsx", index=False)
 
 
 def stock_file_process(filtered_variations):
     stock_df = pd.DataFrame()
     stock_df["code"] = filtered_variations["barcode"]
     stock_df["quantity"] = filtered_variations["Variant Inventory Qty"]
-    stock_df.to_excel("yumi_output/stock.xlsx", index=False)
+    stock_df.to_excel(THIS_FOLDER + "/yumi_output/stock.xlsx", index=False)
 
 
 

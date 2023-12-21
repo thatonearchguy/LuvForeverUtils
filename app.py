@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, send_file
-import shopify2yumi  # Assuming this is the name of your Python script
+import shopify2yumi
+from pathlib import Path
+THIS_FOLDER = Path(__file__).parent.resolve()
 
 app = Flask(__name__)
 
@@ -10,7 +12,8 @@ def index():
         uploaded_file = request.files['file']
 
         # Save the file temporarily (you might want to handle this more securely)
-        file_path = 'shopify_exports/' + uploaded_file.filename
+        file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_file.filename
+        
         uploaded_file.save(file_path)
 
         # Process the CSV file
