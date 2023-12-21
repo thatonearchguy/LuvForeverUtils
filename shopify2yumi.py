@@ -100,6 +100,6 @@ def run_csv_job(file_path):
     with zipfile.ZipFile(memory_file, 'a', zipfile.ZIP_DEFLATED, False) as zf:
         for file in glob.glob(THIS_FOLDER + '/yumi_output/*.xlsx'):
             with open(file, 'rb') as excel_file:
-                zf.writestr(file, excel_file.read())
+                zf.writestr(file.split('/')[-1], excel_file.read())
     memory_file.seek(0)
     return memory_file
