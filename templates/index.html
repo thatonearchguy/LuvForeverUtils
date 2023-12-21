@@ -21,6 +21,9 @@
                 <h3>Shopify2Yumi Product Converter</h3>
                 <form action="/" method="post" enctype="multipart/form-data">
                     <input type="file" name="file" accept=".csv" required>
+                    <input type="checkbox" name="stockonly" value="stock">
+                    <input type="hidden" name="stockonly" value="all">
+                    <label for="stockonly" class="mb-3">Generate only stock?</label><br>
                     <button type="submit">Process CSV!</button>
                 </form>
             </div>

@@ -10,14 +10,12 @@ def index():
     if request.method == 'POST':
         # Get the uploaded file
         uploaded_file = request.files['file']
-
         # Save the file temporarily (you might want to handle this more securely)
         file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_file.filename
 
         uploaded_file.save(file_path)
-
         # Process the CSV file
-        result_file = shopify2yumi.run_csv_job(file_path)
+        result_file = shopify2yumi.run_csv_job(file_path, request.form.get('stockonly'))
 
         return send_file(result_file, as_attachment=True, mimetype='application/zip', download_name='yumi-output.zip')
 

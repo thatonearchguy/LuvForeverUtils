@@ -72,9 +72,12 @@ def stock_file_process(filtered_variations):
 
 
 
-def run_csv_job(file_path):
+def run_csv_job(file_path, stock_only):
     #csvs = glob.glob('./shopify_exports/*.csv')
     #latest_file = max(csvs, key=os.path.getctime)
+    for file in glob.glob(THIS_FOLDER + '/yumi_output/*.xlsx'):
+        os.remove(file)
+        
     latest_file_ds = pd.read_csv(file_path)
 
     latest_file_ds.replace('', np.nan, inplace=True)
@@ -89,12 +92,13 @@ def run_csv_job(file_path):
 
     print("  Shopify2Yumi Product Converter  ")
     print("----------------------------------")
-    print("Processing: yumi_output/product.xlsx")
-    product_file_process(filtered_variations)
     print("Processing: yumi_output/stock.xlsx")
     stock_file_process(filtered_variations)
-    print("Processing: yumi_output/image.xlsx")
-    image_file_process(latest_file_ds)
+    if(stock_only != "stock"):
+        print("Processing: yumi_output/product.xlsx")
+        product_file_process(filtered_variations)
+        print("Processing: yumi_output/image.xlsx")
+        image_file_process(latest_file_ds)
     print("Creating zip file")
     memory_file = BytesIO()
     with zipfile.ZipFile(memory_file, 'a', zipfile.ZIP_DEFLATED, False) as zf:
