@@ -44,18 +44,7 @@ def product_file_process(filtered_variations):
     product_df["origin"] = "China"
     product_df["composition"] = ""
     product_df["careInstructions"] = ""
-
-    commodity_codes = {
-        "Dress" : 6204430000,
-        "Suit" : 6204130000,
-        "Ultra" : 6204430000,
-        "Jumpsuit" : 6114300000,
-        "Jumpsuits" : 6114300000,
-        "Coat": 6102301000,
-        "Dresses": 6204430000,
-    }
-
-    product_df["commodityCode"] = product_df["category"].map(commodity_codes)
+    product_df["commodityCode"] = product_df["category"].map(csvlib.commodity_codes)
     product_df["vatable"] = ""
     product_df.to_excel(THIS_FOLDER + "/yumi_output/product.xlsx", index=False)
 
