@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, send_file
 import shopify2yumi
 import shopify2gs1
 import shopify2ogden
+#import shopifysku
 import os
 from pathlib import Path
 THIS_FOLDER = str(Path(__file__).parent.resolve())
@@ -44,7 +45,7 @@ def shopify2ogden_asn_route():
 def shopify2ogden_product_route():
     if request.method == 'POST':
         # Get the uploaded file
-        uploaded_file = request.files['file1']
+        uploaded_file = request.files['file']
         # Save the file temporarily (you might want to handle this more securely)
         file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_file.filename
 
@@ -54,6 +55,21 @@ def shopify2ogden_product_route():
 
 
         return send_file(result_file, as_attachment=True, mimetype='application/zip', download_name='ogden-product-output.zip')
+
+"""
+@app.route('/shopifysku_gen', methods=['POST'])
+def shopifysku_gen_route():
+    if request.method == 'POST':
+        uploaded_file = request.files['file']
+        # Save the file temporarily (you might want to handle this more securely)
+        file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_file.filename
+
+        uploaded_file.save(file_path)
+        # Process the CSV file
+        result_file = shopifysku.run_sku_job(file_path, request.form.get('stockonly'))
+
+        return send_file(result_file, as_attachment=True, mimetype='application/zip', download_name='yumi-output.zip')
+"""
 
 @app.route('/shopify2yumi', methods=['POST'])
 def shopify2yumi_route():

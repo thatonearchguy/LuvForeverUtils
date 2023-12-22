@@ -27,7 +27,7 @@ def ogden_product_csv_process(filtered_variations):
     generated_product_csv['CustomsDescription'] = "Women's Eveningwear"
     generated_product_csv['CountryOfManufacture'] = 'China'
     generated_product_csv['PackingInstructions'] = 'Bubble Bag'
-
+    raise KeyError
     generated_product_csv.to_csv(THIS_FOLDER + '/ogden_output/products.csv', encoding='utf-8', index=False)
 
 
