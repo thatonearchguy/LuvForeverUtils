@@ -3,14 +3,11 @@ import glob
 import os
 import pandas as pd
 import numpy as np
-import zipfile 
+import csvlib
 from io import BytesIO
 from pathlib import Path
 THIS_FOLDER = str(Path(__file__).parent.resolve())
 
-
-if not os.path.exists(THIS_FOLDER + '/yumi_output'):
-    os.makedirs(THIS_FOLDER + '/yumi_output')
 
 
 def image_file_process(latest_file_ds):
@@ -70,22 +67,18 @@ def stock_file_process(filtered_variations):
     stock_df.to_excel(THIS_FOLDER + "/yumi_output/stock.xlsx", index=False)
 
 
+def price_file_process(filtered_variations):
+    price_df = pd.DataFrame()
+    price_df["code"] = filtered_variations["barcode"]
+    price_df["price"] = filtered_variations["rrp"]
+    price_df["currency"] = "GBP"
+    price_df.to_excel(THIS_FOLDER + "/yumi_output/price.xlsx", index=False)
 
 
 def run_csv_job(file_path, stock_only):
     #csvs = glob.glob('./shopify_exports/*.csv')
     #latest_file = max(csvs, key=os.path.getctime)
-    latest_file_ds = pd.read_csv(file_path)
-
-    latest_file_ds.replace('', np.nan, inplace=True)
-
-    filtered_variations = latest_file_ds.dropna(subset=['Option1 Value']).copy()
-    filtered_variations.ffill(inplace=True, axis=0)
-
-
-    filtered_variations.insert(1, "Root SKU", filtered_variations["Variant SKU"].str[:-3])
-
-    filtered_variations.rename(columns={"Root SKU" : "code", "Title": "title", "Body (HTML)" : "description", "Type" : "category", "Option1 Value" : "size", "Variant SKU": "variantCode", "Variant Compare At Price" : "rrp", "Vendor": "productBrand", "Variant Barcode": "barcode"}, inplace=True)
+    latest_file_ds, filtered_variations = csvlib.import_csv_from_path(file_path)
 
     print("  Shopify2Yumi Product Converter  ")
     print("----------------------------------")
@@ -96,18 +89,11 @@ def run_csv_job(file_path, stock_only):
         product_file_process(filtered_variations)
         print("Processing: yumi_output/image.xlsx")
         image_file_process(latest_file_ds)
-    print("Creating zip file")
-    memory_file = BytesIO()
-    with zipfile.ZipFile(memory_file, 'a', zipfile.ZIP_DEFLATED, False) as zf:
-        for file in glob.glob(THIS_FOLDER + '/yumi_output/*.xlsx'):
-            with open(file, 'rb') as excel_file:
-                zf.writestr(file.split('/')[-1], excel_file.read())
-    memory_file.seek(0)
-
-    for file in glob.glob(THIS_FOLDER + '/yumi_output/*.xlsx'):
-        os.remove(file)
-        
+        print("Processing: yumi_output/price.xlsx")
+        price_file_process(filtered_variations)
+    
+    ram_zip = csvlib.generate_zip_from_dir('/yumi_output/*.xlsx')
     os.remove(file_path)
 
-    return memory_file
+    return ram_zip
 

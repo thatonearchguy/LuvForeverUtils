@@ -1,0 +1,40 @@
+import pandas as pd
+import numpy as np
+from io import BytesIO
+import zipfile 
+import glob
+import os
+from pathlib import Path
+THIS_FOLDER = str(Path(__file__).parent.resolve())
+
+
+def import_csv_from_path(file_path):
+
+    latest_file_ds = pd.read_csv(file_path)
+
+    latest_file_ds.replace('', np.nan, inplace=True)
+
+    filtered_variations = latest_file_ds.dropna(subset=['Option1 Value']).copy()
+    filtered_variations.ffill(inplace=True, axis=0)
+
+
+    filtered_variations.insert(1, "Root SKU", filtered_variations["Variant SKU"].str[:-3])
+
+    filtered_variations.rename(columns={"Root SKU" : "code", "Title": "title", "Body (HTML)" : "description", "Type" : "category", "Option1 Value" : "size", "Variant SKU": "variantCode", "Variant Compare At Price" : "rrp", "Vendor": "productBrand", "Variant Barcode": "barcode"}, inplace=True)
+
+    return latest_file_ds, filtered_variations
+
+
+def generate_zip_from_dir(target_path):
+    print("Creating zip file")
+    memory_file = BytesIO()
+    with zipfile.ZipFile(memory_file, 'a', zipfile.ZIP_DEFLATED, False) as zf:
+        for file in glob.glob(THIS_FOLDER + target_path):
+            with open(file, 'rb') as file_contents:
+                zf.writestr(file.split('/')[-1], file_contents.read())
+    memory_file.seek(0)
+
+    for file in glob.glob(THIS_FOLDER + target_path):
+        os.remove(file)
+
+    return memory_file

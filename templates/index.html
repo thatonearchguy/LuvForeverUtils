@@ -19,18 +19,80 @@
         <div class="row">
             <div class="col-sm">
                 <h3>Shopify2Yumi Product Converter</h3>
-                <form action="/" method="post" enctype="multipart/form-data">
+                <form action="/shopify2yumi" method="post" enctype="multipart/form-data">
                     <input type="file" name="file" accept=".csv" required>
                     <input type="checkbox" name="stockonly" value="stock">
                     <input type="hidden" name="stockonly" value="all">
-                    <label for="stockonly" class="mb-3">Generate only stock?</label><br>
+                    <label for="stockonly" class="mb-3">Stock sheet only? (For inventory update)</label><br>
                     <button type="submit">Process CSV!</button>
                 </form>
             </div>
             <div class="col-sm">
-                <h3>How To Use</h3>
+                <h3>Guidelines</h3>
                 <br>
                 <p>Simply use the browse function to locate your Shopify product export (select ONLY the products you need) and upload the product_export(n).csv. Then, click Process CSV!</p>
+            </div>
+        </div>
+    </div>
+    <div class="container card mt-3 p-3">
+
+        <div class="row">
+            <div class="col-sm">
+                <h3>Shopify2GS1 Barcode Population</h3>
+                <form action="/shopify2gs1" method="post" enctype="multipart/form-data">
+                    <label for="file1">Upload Shopify export</label>
+                    <input type="file" name="file1" accept=".csv" required>
+                    <label for="file2">Upload GS1 numberbank</label>
+                    <input type="file" name="file2" accept=".csv" required>
+                    <button type="submit">Process CSV!</button>
+                </form>
+            </div>
+            <div class="col-sm">
+                <h3>Guidelines</h3>
+                <br>
+                <p>Use the browse function to locate your COMPLETE Shopify product export and
+                    COMPLETE GS1 numberbank download. Then, click Process CSV!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container card mt-3 p-3">
+    
+        <div class="row">
+            <div class="col-sm">
+                <h3>Shopify2Ogden Product Sheet</h3>
+                <form action="/shopify2gs1" method="post" enctype="multipart/form-data">
+                    <label for="file">Upload Shopify export</label>
+                    <input type="file" name="file1" accept=".csv" required>
+                    <button type="submit">Process CSV!</button>
+                </form>
+            </div>
+            <div class="col-sm">
+                <h3>Guidelines</h3>
+                <br>
+                    <p>Simply use the browse function to locate your Shopify product export (select ONLY the products you need) and upload
+                        the product_export(n).csv. Then, click Process CSV!</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container card mt-3 p-3">
+    
+        <div class="row">
+            <div class="col-sm">
+                <h3>Shopify2Ogden ASN Generator</h3>
+                <form action="/shopify2gs1" method="post" enctype="multipart/form-data">
+                    <label for="file">Upload Shopify export</label>
+                    <input type="file" name="file1" accept=".csv" required>
+                    <button type="submit">Process CSV!</button>
+                </form>
+            </div>
+            <div class="col-sm">
+                <h3>Guidelines</h3>
+                <br>
+                <p>Simply use the browse function to locate your Shopify product export (select ONLY the products you need)
+                    and upload
+                    the product_export(n).csv. Then, click Process CSV!</p>
             </div>
         </div>
     </div>
