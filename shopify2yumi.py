@@ -78,7 +78,7 @@ def price_file_process(filtered_variations):
 def run_csv_job(file_path, stock_only):
     #csvs = glob.glob('./shopify_exports/*.csv')
     #latest_file = max(csvs, key=os.path.getctime)
-    latest_file_ds, filtered_variations = csvlib.import_csv_from_path(file_path)
+    latest_file_ds, filtered_variations = csvlib.import_shopify_from_path(file_path)
 
     print("  Shopify2Yumi Product Converter  ")
     print("----------------------------------")

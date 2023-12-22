@@ -8,15 +8,27 @@ from pathlib import Path
 THIS_FOLDER = str(Path(__file__).parent.resolve())
 
 
-def import_csv_from_path(file_path):
-
-    latest_file_ds = pd.read_csv(file_path)
+def import_csv_from_path(file_path, rowskip=[]):
+    latest_file_ds = pd.read_csv(file_path, skiprows=rowskip)
 
     latest_file_ds.replace('', np.nan, inplace=True)
 
-    filtered_variations = latest_file_ds.dropna(subset=['Option1 Value']).copy()
-    filtered_variations.ffill(inplace=True, axis=0)
+    return latest_file_ds
 
+def strip_junk_from_barcodes(barcode):
+    return "'" + ''.join(a for a in barcode if a.isdigit())
+
+
+def import_shopify_from_path(file_path, col_skip=[]):
+
+
+    latest_file_ds = import_csv_from_path(file_path)
+
+    filtered_variations = latest_file_ds.dropna(subset=['Option1 Value']).copy()
+    if(len(col_skip) > 0):
+        filtered_variations.loc[:, filtered_variations.columns.difference(col_skip)] = filtered_variations.loc[:, filtered_variations.columns.difference(col_skip)].ffill(axis=0)
+    else:
+        filtered_variations.ffill(inplace=True, axis=0)
 
     filtered_variations.insert(1, "Root SKU", filtered_variations["Variant SKU"].str[:-3])
 
