@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, send_file
 import shopify2yumi
 import shopify2gs1
 import shopify2ogden
-#import shopifysku
+import shopifysku
 import os
 from pathlib import Path
 THIS_FOLDER = str(Path(__file__).parent.resolve())
@@ -56,7 +56,6 @@ def shopify2ogden_product_route():
 
         return send_file(result_file, as_attachment=True, mimetype='application/zip', download_name='ogden-product-output.zip')
 
-"""
 @app.route('/shopifysku_gen', methods=['POST'])
 def shopifysku_gen_route():
     if request.method == 'POST':
@@ -66,10 +65,9 @@ def shopifysku_gen_route():
 
         uploaded_file.save(file_path)
         # Process the CSV file
-        result_file = shopifysku.run_sku_job(file_path, request.form.get('stockonly'))
+        result_file = shopifysku.run_sku_job(file_path) 
 
         return send_file(result_file, as_attachment=True, mimetype='application/zip', download_name='yumi-output.zip')
-"""
 
 @app.route('/shopify2yumi', methods=['POST'])
 def shopify2yumi_route():
@@ -89,7 +87,7 @@ def shopify2yumi_route():
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
-    dirs = ['ogden_output', 'yumi_output', 'shopify_exports', 'gs1_exports', 'gs1_output']
+    dirs = ['ogden_output', 'yumi_output', 'shopify_exports', 'gs1_exports', 'gs1_output', 'sku_exports']
 
     for entry in dirs:
         if not os.path.exists(THIS_FOLDER + f'/{entry}'):
