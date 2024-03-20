@@ -31,7 +31,7 @@ def shopify2ogden_asn_route():
     if request.method == 'POST':
         # Get the uploaded file
         uploaded_file = request.files['file']
-        # Save the file temporarily (you might want to handle this more securely)
+
         file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_file.filename
 
         uploaded_file.save(file_path)
@@ -46,7 +46,7 @@ def shopify2ogden_product_route():
     if request.method == 'POST':
         # Get the uploaded file
         uploaded_file = request.files['file']
-        # Save the file temporarily (you might want to handle this more securely)
+
         file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_file.filename
 
         uploaded_file.save(file_path)
@@ -60,7 +60,7 @@ def shopify2ogden_product_route():
 def shopifysku_gen_route():
     if request.method == 'POST':
         uploaded_file = request.files['file']
-        # Save the file temporarily (you might want to handle this more securely)
+
         file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_file.filename
 
         uploaded_file.save(file_path)
@@ -74,7 +74,7 @@ def shopify2yumi_route():
     if request.method == 'POST':
         # Get the uploaded file
         uploaded_file = request.files['file']
-        # Save the file temporarily (you might want to handle this more securely)
+
         file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_file.filename
 
         uploaded_file.save(file_path)

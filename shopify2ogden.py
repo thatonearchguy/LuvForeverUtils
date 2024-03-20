@@ -18,7 +18,7 @@ def ogden_product_csv_process(filtered_variations):
         generated_product_csv[i] = ""
 
     generated_product_csv['SKU'] = filtered_variations['barcode']    
-    generated_product_csv['Name'] = filtered_variations['title'] + " " + filtered_variations['size']
+    generated_product_csv['Name'] = filtered_variations['title'] + " " + filtered_variations['size'].map(int).map(str)
     generated_product_csv['EANBarcode'] = filtered_variations['barcode']
     generated_product_csv['Description'] = filtered_variations['description']
     generated_product_csv['Discontinued'] = 'N'
@@ -35,7 +35,7 @@ def ogden_asn_csv_process(filtered_variations):
     ogden_asn_df = pd.DataFrame()
     ogden_asn_df['SKU'] = filtered_variations['barcode']
     ogden_asn_df['Quantity'] = filtered_variations['Variant Inventory Qty']
-    ogden_asn_df['Name'] = filtered_variations['title'] + " " + filtered_variations['size']
+    ogden_asn_df['Name'] = filtered_variations['title'] + " " + filtered_variations['size'].map(int).map(str)
     ogden_asn_df['EANBarcode'] = filtered_variations['barcode']
     ogden_asn_df['UPCBarcode'] = ""
     ogden_asn_df['WeightInKG'] = ""
