@@ -15,7 +15,7 @@ def import_csv_from_path(file_path, rowskip=[]):
     return latest_file_ds
 
 def strip_junk_from_barcodes(barcode):
-    return "'" + ''.join(a for a in barcode if a.isdigit())
+    return ''.join(a for a in barcode if a.isdigit())
 
 def import_shopify_from_path(file_path, col_skip=[], change_headers=True):
     latest_file_ds = import_csv_from_path(file_path)
