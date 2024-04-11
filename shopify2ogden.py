@@ -53,7 +53,7 @@ def ogden_asn_csv_process(filtered_variations):
 def run_asn_job(shopify_path):
     #csvs = glob.glob('./shopify_exports/*.csv')
     #latest_file = max(csvs, key=os.path.getctime)
-    latest_file_ds, filtered_variations = csvlib.import_shopify_from_path(shopify_path)
+    latest_file_ds, filtered_variations = csvlib.import_shopify_products_from_path(shopify_path)
 
     print("  Shopify2Ogden ASN Generator  ")
     print("-------------------------------")
@@ -69,7 +69,7 @@ def run_asn_job(shopify_path):
 def run_product_job(shopify_path):
     #csvs = glob.glob('./shopify_exports/*.csv')
     #latest_file = max(csvs, key=os.path.getctime)
-    latest_file_ds, filtered_variations = csvlib.import_shopify_from_path(shopify_path)
+    latest_file_ds, filtered_variations = csvlib.import_shopify_products_from_path(shopify_path)
 
     print("  Shopify2Ogden Product Sheet Generator  ")
     print("-----------------------------------------")

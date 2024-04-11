@@ -41,10 +41,11 @@ def shopify_generate_sku(filtered_variations):
     filtered_variations.to_csv(THIS_FOLDER + '/sku_exports/sku_upload.csv', encoding='utf-8', index=False)
 
 def run_sku_job(file_path):
-    latest_file_ds, filtered_variations = csvlib.import_shopify_from_path(file_path, ["Variant Barcode", "Variant SKU"], False)
+    latest_file_ds, filtered_variations = csvlib.import_shopify_products_from_path(file_path, ["Variant Barcode", "Variant SKU"], False)
     print("  ShopifySKUs Generation  ")
     print("--------------------------")
     print("Processing: Locating highest current SKU from Shopify data")
+    #this is deliberately missing the call because we run it once during generate_sku already.
     print("Processing: Generating following SKUs into Shopify data")
     shopify_generate_sku(filtered_variations)
     print("Done!")

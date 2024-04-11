@@ -3,6 +3,7 @@ import shopify2yumi
 import shopify2gs1
 import shopify2ogden
 import shopifysku
+import shopifyorderverif
 import os
 from pathlib import Path
 THIS_FOLDER = str(Path(__file__).parent.resolve())
@@ -84,10 +85,28 @@ def shopify2yumi_route():
         return send_file(result_file, as_attachment=True, mimetype='application/zip', download_name='yumi-output.zip')
 
 
+@app.route('/shopify2yumi_order', methods=['POST'])
+def shopify2yumi_order_verif_route():
+    if request.method == 'POST':
+        # Get the uploaded file
+        uploaded_products = request.files['shopify']
+        uploaded_yumi = request.files['yumi']
+        # Save the file temporarily (you might want to handle this more securely)
+        product_file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_products.filename
+        yumi_file_path = THIS_FOLDER + '/yumi_exports/' + uploaded_yumi.filename
+
+        uploaded_products.save(product_file_path)
+        uploaded_yumi.save(yumi_file_path)
+        # Process the CSV file
+        result_file = shopifyorderverif.run_verif_job(product_file_path, yumi_file_path)
+
+        return send_file(result_file, as_attachment=True, mimetype='application/zip', download_name='order-verif-output.zip')
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
-    dirs = ['ogden_output', 'yumi_output', 'shopify_exports', 'gs1_exports', 'gs1_output', 'sku_exports']
+    dirs = ['ogden_output', 'yumi_output', 'shopify_exports', 'gs1_exports', 'gs1_output', 'sku_exports', 'yumi_exports']
 
     for entry in dirs:
         if not os.path.exists(THIS_FOLDER + f'/{entry}'):

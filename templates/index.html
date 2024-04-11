@@ -40,6 +40,27 @@
 
         <div class="row">
             <div class="col-sm">
+                <h3>Shopify2Yumi Order Verifier</h3>
+                <form action="/shopify2yumi_order" method="post" enctype="multipart/form-data">
+                    <label for="shopify">Upload Shopify export</label>
+                    <input type="file" class="form-control p-4" name="shopify" accept=".csv" required>
+                    <label for="gs1">Upload Yumi invoice</label>
+                    <input type="file" name="yumi" class="form-control p-4" accept=".xlsx" required>
+                    <button type="submit">Process CSV!</button>
+                </form>
+            </div>
+            <div class="col-sm">
+                <h3>Guidelines</h3>
+                <br>
+                <p>Use the browse function to locate your COMPLETE Shopify product export and
+                    Yumi invoice. Then, click Process CSV!</p>
+            </div>
+        </div>
+    </div>
+    <div class="container card mt-3 p-3">
+
+        <div class="row">
+            <div class="col-sm">
                 <h3>Shopify2GS1 Barcode Population</h3>
                 <form action="/shopify2gs1" method="post" enctype="multipart/form-data">
                     <label for="shopify">Upload Shopify export</label>

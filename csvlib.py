@@ -17,7 +17,27 @@ def import_csv_from_path(file_path, rowskip=[]):
 def strip_junk_from_barcodes(barcode):
     return ''.join(a for a in barcode if a.isdigit())
 
-def import_shopify_from_path(file_path, col_skip=[], change_headers=True):
+
+def filter_yumi_orders(df):
+    df = df[(df['Name'].str.len() == 6) | (df['Tags'] == 'Yumi')]
+    return df
+
+
+def import_yumi_orders_from_path(file_path, rowskip=[]):
+    yumi_invoice_ds = pd.ExcelFile(file_path)
+    return yumi_invoice_ds.parse('Export View', skiprows=rowskip)
+
+
+def import_shopify_orders_from_path(file_path):
+    latest_file_ds = import_csv_from_path(file_path)
+
+    filtered_orders = latest_file_ds.dropna(subset=['Fulfillment Status'])
+    filtered_orders = filtered_orders[filtered_orders['Fulfillment Status'] != 'unfulfilled']
+
+    return latest_file_ds, filtered_orders
+
+
+def import_shopify_products_from_path(file_path, col_skip=[], change_headers=True):
     latest_file_ds = import_csv_from_path(file_path)
 
     filtered_variations = latest_file_ds.dropna(subset=['Option1 Value']).copy()
@@ -42,7 +62,6 @@ def generate_zip_from_dir(target_path):
             with open(file, 'rb') as file_contents:
                 zf.writestr(file.split('/')[-1], file_contents.read())
     memory_file.seek(0)
-
     for file in glob.glob(THIS_FOLDER + target_path):
         os.remove(file)
 
@@ -58,3 +77,4 @@ commodity_codes = {
         "Coat": 6102301000,
         "Dresses": 6204430000,
 }
+

@@ -55,7 +55,7 @@ def update_shopify_process(og_shopify_csv, filtered_variations, gs1_file_ds):
 def run_csv_job(shopify_path, gs1_path):
     #csvs = glob.glob('./shopify_exports/*.csv')
     #latest_file = max(csvs, key=os.path.getctime)
-    latest_file_ds, filtered_variations = csvlib.import_shopify_from_path(shopify_path, ["Variant Barcode", "Variant SKU"])
+    latest_file_ds, filtered_variations = csvlib.import_shopify_products_from_path(shopify_path, ["Variant Barcode", "Variant SKU"])
     filtered_variations.insert(2, 'Number', filtered_variations['barcode'])
 
     gs1_file_ds = csvlib.import_csv_from_path(gs1_path, [0,1,2])
