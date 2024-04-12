@@ -32,7 +32,7 @@ def import_shopify_orders_from_path(file_path):
     latest_file_ds = import_csv_from_path(file_path)
 
     #filtered_orders = latest_file_ds.dropna(subset=['Fulfillment Status'])
-    filtered_orders = filtered_orders[filtered_orders['Fulfillment Status'] != 'unfulfilled']
+    filtered_orders = latest_file_ds[latest_file_ds['Fulfillment Status'] != 'unfulfilled']
 
     return latest_file_ds, filtered_orders
 
