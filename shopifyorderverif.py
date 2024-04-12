@@ -23,7 +23,6 @@ def match_yumi_orders_to_shopify(yumi_df, shopify_df, shopify_product_df):
             shopify_df['YumiMatch'][found_indices] = "YES"
             shopify_df['Actual RRP'][found_indices] = actual_price
             shopify_df['Sold at'][found_indices] = row['Item Price']
-            shopify
         if(len(found_indices) > 1):
             for mult_indices in found_indices:
                 if shopify_df['Lineitem sku'][mult_indices] == row['Variant Code']:
