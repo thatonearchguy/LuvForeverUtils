@@ -23,8 +23,8 @@ def match_yumi_orders_to_shopify(yumi_df, shopify_df, shopify_product_df):
             shopify_df['Actual RRP'][found_indices] = actual_price
         if(len(found_indices) > 1):
             for mult_indices in found_indices:
-                if shopify_df['Lineitem sku'][mult_indices] == yumi_df['Variant Code'][index]:
-                    actual_price = shopify_product_df['rrp'][shopify_product_df['variantCode'] == row['Variant Code']]
+                if shopify_df['Lineitem sku'][mult_indices] == row['Variant Code']:
+                    actual_price = shopify_product_df['rrp'][shopify_product_df['variantCode'] == row['Variant Code']].values[0]
                     shopify_df['PriceDelta'][mult_indices] = actual_price - row['Item Price']
                     shopify_df['YumiMatch'][mult_indices] = "YES"
                     shopify_df['Actual RRP'][mult_indices] = actual_price
@@ -34,7 +34,6 @@ def match_yumi_orders_to_shopify(yumi_df, shopify_df, shopify_product_df):
     shopify_df.drop(shopify_df.columns[list(range(21, 75))], axis=1, inplace=True)
     shopify_df.drop(shopify_df.columns[[3, 6, 12, 14, 18, 19]], axis=1, inplace=True)
     shopify_df.to_csv(THIS_FOLDER + '/yumi_output/shopify-data.csv', encoding='utf-8', index=False)
-
                 
 
 
