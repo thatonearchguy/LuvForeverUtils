@@ -27,7 +27,7 @@ def match_yumi_orders_to_shopify(yumi_df, shopify_df, shopify_product_df):
                     actual_price = shopify_product_df['rrp'][shopify_product_df['variantCode'] == row['Variant Code']]
                     shopify_df['PriceDelta'][mult_indices] = actual_price - row['Item Price']
                     shopify_df['YumiMatch'][mult_indices] = "YES"
-                    shopify_df['Actual RRP'][found_indices] = actual_price
+                    shopify_df['Actual RRP'][mult_indices] = actual_price
 
                     break
 
