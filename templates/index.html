@@ -42,10 +42,12 @@
             <div class="col-sm">
                 <h3>Shopify2Yumi Order Verifier</h3>
                 <form action="/shopify2yumi_order" method="post" enctype="multipart/form-data">
-                    <label for="shopify">Upload Shopify export</label>
-                    <input type="file" class="form-control p-4" name="shopify" accept=".csv" required>
+                    <label for="shopify_order">Upload Shopify order export</label>
+                    <input type="file" class="form-control p-4" name="shopify_order" accept=".csv" required>
                     <label for="gs1">Upload Yumi invoice</label>
                     <input type="file" name="yumi" class="form-control p-4" accept=".xlsx" required>
+                    <label for="shopify_product">Upload Shopify product export</label>
+                    <input type="file" name="shopify_product" class="form-control p-4" accept=".csv" required>
                     <button type="submit">Process CSV!</button>
                 </form>
             </div>

@@ -89,16 +89,19 @@ def shopify2yumi_route():
 def shopify2yumi_order_verif_route():
     if request.method == 'POST':
         # Get the uploaded file
-        uploaded_products = request.files['shopify']
+        uploaded_orders = request.files['shopify_order']
         uploaded_yumi = request.files['yumi']
+        uploaded_products = request.files['shopify_product']
         # Save the file temporarily (you might want to handle this more securely)
         product_file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_products.filename
+        order_file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_orders.filename
         yumi_file_path = THIS_FOLDER + '/yumi_exports/' + uploaded_yumi.filename
 
         uploaded_products.save(product_file_path)
         uploaded_yumi.save(yumi_file_path)
+        uploaded_orders.save(order_file_path)
         # Process the CSV file
-        result_file = shopifyorderverif.run_verif_job(product_file_path, yumi_file_path)
+        result_file = shopifyorderverif.run_verif_job(order_file_path, yumi_file_path, product_file_path)
 
         return send_file(result_file, as_attachment=True, mimetype='application/zip', download_name='order-verif-output.zip')
 
