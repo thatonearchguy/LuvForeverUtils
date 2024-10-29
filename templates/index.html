@@ -121,9 +121,7 @@
             </div>
         </div>
     </div>
-
     <div class="container card mt-3 p-3">
-    
         <div class="row">
             <div class="col-sm">
                 <h3>Shopify2Ogden ASN Generator</h3>
@@ -144,6 +142,27 @@
         </div>
     </div>
     
+    <div class="container card mt-3 p-3">
+        <div class="row">
+            <div class="col-sm">
+                <h3>Shopify Sale Price Updater</h3>
+                <form action="/shopifyprice_edit" method="post" enctype="multipart/form-data">
+                    <label for="file">Upload Shopify export</label>
+                    <input type="file" class="form-control p-4" name="file" accept=".csv" required>
+                    <label for="sale_percentage">Percentage Off Sale Value</label>
+                    <input type="text" class="form-control p-4" name="sale_percentage" required> 
+                    <button type="submit">Process CSV!</button>
+                </form>
+            </div>
+            <div class="col-sm">
+                <h3>Guidelines</h3>
+                <br>
+                <p>Simply use the browse function to locate your Shopify product export (select ONLY the products you need to
+                  apply a sale change to) and upload it. Enter your percentage sale value and then click Process CSV!
+                    <p>Create ASN and upload the CSV <a href="https://system.ogdenfulfilment.co.uk/Stock/CreateASN/">here!</a></p>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

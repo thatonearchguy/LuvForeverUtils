@@ -4,6 +4,7 @@ import shopify2gs1
 import shopify2ogden
 import shopifysku
 import shopifyorderverif
+import shopifysale
 import os
 from pathlib import Path
 THIS_FOLDER = str(Path(__file__).parent.resolve())
@@ -105,11 +106,27 @@ def shopify2yumi_order_verif_route():
 
         return send_file(result_file, as_attachment=True, mimetype='application/zip', download_name='order-verif-output.zip')
 
+@app.route('/shopifyprice_edit', methods=['POST'])
+def shopifyprice_edit_route():
+    if request.method == 'POST':
+        # Get the uploaded file
+        uploaded_products = request.files['file']
+        # Get the sale percentage
+        percentage_sale = int(request.form.get('sale_percentage'))
+        # Save the file temporarily (you might want to handle this more securely)
+        product_file_path = THIS_FOLDER + '/shopify_exports/' + uploaded_products.filename
+
+        uploaded_products.save(product_file_path)
+        # Process the CSV file
+        result_file = shopifysale.run_sale_edit(product_file_path, percentage_sale)
+
+        return send_file(result_file, as_attachment=True, mimetype='application/zip', download_name='sale_price_update.zip')
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
 
-    dirs = ['ogden_output', 'yumi_output', 'shopify_exports', 'gs1_exports', 'gs1_output', 'sku_exports', 'yumi_exports']
+    dirs = ['price_exports', 'ogden_output', 'yumi_output', 'shopify_exports', 'gs1_exports', 'gs1_output', 'sku_exports', 'yumi_exports']
 
     for entry in dirs:
         if not os.path.exists(THIS_FOLDER + f'/{entry}'):
